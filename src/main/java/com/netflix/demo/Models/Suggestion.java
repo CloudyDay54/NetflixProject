@@ -2,10 +2,12 @@ package com.netflix.demo.Models;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.Data;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
+@Data
 @Entity
 @Table(name ="suggestions")
 public class Suggestion {

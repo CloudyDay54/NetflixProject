@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.util.HashSet;
 import java.util.Set;
@@ -24,18 +25,24 @@ public class Movie {
 
     @Column(name = "movie_title")
     @NotNull(groups = Create.class)
-    private String movie_title;
+    @NotEmpty(groups = Create.class)
+    private String movieTitle;
 
-    @ManyToMany(mappedBy = "movies")
-    private Set<Category> categories = new HashSet<>();
-
-    @OneToOne(mappedBy = "movie")
-    private Suggestion suggestion;
+    @Column(name = "year_released")
+    @NotNull(groups = Create.class)
+    @NotEmpty(groups = Create.class)
+    private String yearReleased;
 
     @Column(name = "movie_type")
-    private MovieType movie_type;
+    private MovieType movieType;
 
-    private Movie(){}
+    @ManyToMany(mappedBy = "movies", cascade = CascadeType.ALL)
+    private Set<Category> categories = new HashSet<>();
+
+    @OneToOne(mappedBy = "movie", optional = true, cascade = CascadeType.ALL)
+    private Suggestion suggestion;
+
+    public Movie(){}
 
     public interface Create{}
 

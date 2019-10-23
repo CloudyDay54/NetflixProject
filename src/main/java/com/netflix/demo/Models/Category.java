@@ -5,12 +5,14 @@ import lombok.Data;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Data
 @Entity
-@Table(name =  "Category")
+@Table(name =  "categories")
 public class Category {
 
     @Id
@@ -23,13 +25,13 @@ public class Category {
     @NotNull(groups = Create.class)
     private String name;
 
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
         name = "movie_categories",
-        joinColumns = @JoinColumn(name = "category_id"),
-        inverseJoinColumns = @JoinColumn(name = "movie_id")
+        joinColumns = @JoinColumn(name = "category_id", referencedColumnName = "id"),
+        inverseJoinColumns = @JoinColumn(name = "movie_id", referencedColumnName = "id")
     )
-    private Set<Movie> movies = new HashSet<>();
+    private List<Movie> movies = new ArrayList<>();
 
     public Category(){}
 
